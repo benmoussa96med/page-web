@@ -1,40 +1,70 @@
-const productList={
-     products :[
-        {
-        title:'A pillow',
-        imageutl:'https://europe.shopmarriott.com/media/catalog/product/cache/13/image/533x351/9df78eab33525d08d6e5fb8d27136e95/m/a/mareu-108-ff_lrg.jpg',
-        Price:19.99,
-        DEscription:'A soft pillow'
-    },
-    {
-    title:'A carpet',
-    imageutl:'https://www.replacementceilingtilesuk.co.uk/wp-content/uploads/2019/10/Dahlia-Moonfire-1.jpg',
-    Price:79.99,
-    DEscription:'A carpet which you might Like - or not.'
+class Product {
+    // title = 'DEFAULT';
+    // imageUrl;
+    // description;
+    // price;
+  
+    constructor(title, image, desc, price) {
+      this.title = title;
+      this.imageUrl = image;
+      this.description = desc;
+      this.price = price;
     }
-    ],
-    render(){
-        const renderhook=document.querySelector('#app');
-        const prodList=document.createElement('ul');
-        prodList.className='product-list';
-        for (const pro of this.products){
-            const prodEL=document.createElement('li');
-            prodEL.className='product-item';
-            prodEL.innerHTML=`
-            <div>
-            <img src="${pro.imageutl}" alt="${pro.title}">
+  }
+  class ProductItem {
+    constructor(product) {
+      this.product = product;
+    }
+  
+    render() {
+      const prodEl = document.createElement('li');
+      prodEl.className = 'product-item';
+      prodEl.innerHTML = `
+          <div>
+            <img src="${this.product.imageUrl}" alt="${this.product.title}" >
             <div class="product-item__content">
-            <h2>${pro.title}</h2>
-            <h3>\$${pro.Price}</h3>
-            <p>${pro.DEscription}</p>
-            <button>Add to Cart</button>
+              <h2>${this.product.title}</h2>
+              <h3>\$${this.product.price}</h3>
+              <p>${this.product.description}</p>
+              <button>Add to Cart</button>
             </div>
-            </div>
-            `;
-            prodList.append(prodEL);
-        }
-        renderhook.append(prodList);
+          </div>
+        `;
+      return prodEl;
     }
-};
-
-productList.render();
+  }
+  
+  class ProductList {
+    products = [
+      new Product(
+        'A Pillow',
+        'https://www.maxpixel.net/static/photo/2x/Soft-Pillow-Green-Decoration-Deco-Snuggle-1241878.jpg',
+        'A soft pillow!',
+        19.99
+      ),
+      new Product(
+        'A Carpet',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Ardabil_Carpet.jpg/397px-Ardabil_Carpet.jpg',
+        'A carpet which you might like - or not.',
+        89.99
+      )
+    ];
+  
+    constructor() {}
+  
+    render() {
+      const renderHook = document.getElementById('app');
+      const prodList = document.createElement('ul');
+      prodList.className = 'product-list';
+      for (const prod of this.products) {
+        const productItem = new ProductItem(prod);
+        const prodEl = productItem.render();
+        prodList.append(prodEl);
+      }
+      renderHook.append(prodList);
+    }
+  }
+  
+  const productList = new ProductList();
+  productList.render();
+  
